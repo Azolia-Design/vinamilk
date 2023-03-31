@@ -34,6 +34,20 @@ const mainScript = () => {
             $('.nav').removeClass('active')
         }
     })
+    $('[data-lang]').on('click', function(e) {
+        e.preventDefault();
+        let type = $(this).attr('data-lang');
+        console.log(type)
+        if (type == 'open') {
+            if ($('.header-lang-wrap').hasClass('active')) {
+                $('.header-lang-wrap').removeClass('active')
+            } else {
+                $('.header-lang-wrap').addClass('active')
+            }
+        } else if (type == 'close') {
+            $('.header-lang-wrap').removeClass('active')
+        }
+    })
 
 
 }
