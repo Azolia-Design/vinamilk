@@ -49,6 +49,20 @@ const mainScript = () => {
         }
     })
 
+    $('[data-accord="head"').on('click', function(e) {
+        e.preventDefault();
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active')
+            $(this).parent().find('[data-accord="body"]').slideUp();
+        } else {
+            $(this).addClass('active')
+            $(this).parent().find('[data-accord="body"]').slideDown({
+                start: function() {
+                  $(this).css('display','grid');
+                }
+            })
+        }
+    })
 
 }
 window.onload = mainScript;
