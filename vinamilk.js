@@ -13,7 +13,6 @@ const mainScript = () => {
     lenis.on('scroll', function(inst) {
         if (inst.scroll > $('.header').height()) {
             $('.header').addClass('on-scroll')
-            console.log(inst.direction)
             if (inst.direction == 1) {
                 $('.header').addClass('on-hide')
             } else if (inst.direction == -1) {
@@ -48,6 +47,7 @@ const mainScript = () => {
             $('.header-lang-wrap').removeClass('active')
         }
     })
+    
 
     //Contact page
     if ($('[data-namepage="contact"]').length) {
@@ -66,6 +66,56 @@ const mainScript = () => {
             }
         })
     }
+
+    // Demo click to section
+    function clickToSection() {
+        let allSections = $('[data-section]')
+        let activeSc, nextSc, prevSc;
+        let currentScroll = {scroll: lenis.targetScroll}
+        lenis.on('scroll', function(inst) {
+            detectSection(inst)
+        })
+        setTimeout(() => {
+            detectSection(currentScroll)
+            console.log(activeSc)    
+        }, 100);
+
+        function detectSection(scroller) {
+            for (let x = 0; x < allSections.length; x++) {
+                let top = allSections.eq(x).offset().top - scroller.scroll;
+                if (top > (- $(window).height() / 5) && top <= ($(window).height() / 5)) {
+                    activeSc = x
+                    nextSc = x + 1;
+                    prevSc = x - 1;
+                    if (x == 0) {
+                        $('.page-nav-left').addClass('inactive')
+                        $('.page-nav-right').removeClass('inactive')
+                    } else if (x == allSections.length - 1) {
+                        $('.page-nav-right').addClass('inactive')
+                        $('.page-nav-left').removeClass('inactive')
+                    } else {
+                        $('.page-nav-right').removeClass('inactive')
+                        $('.page-nav-left').removeClass('inactive')
+                    }
+                    if (prevSc >= 0) {
+                        $('.page-nav-left').attr('data-scroll', `.${allSections.eq(prevSc).attr('class').split(' ').join('.')}`)
+                    }
+                    if (nextSc < allSections.length) {
+                        $('.page-nav-right').attr('data-scroll', `.${allSections.eq(nextSc).attr('class').split(' ').join('.')}`)
+                    }
+                }
+            }
+        }
+
+        $('.page-nav-ic-wrap').on('click', function(e) {
+            e.preventDefault();
+            let target = $(this).attr('data-scroll')
+            lenis.scrollTo(target)
+        })
+    }
+    clickToSection()
+
+
 
 }
 window.onload = mainScript;
