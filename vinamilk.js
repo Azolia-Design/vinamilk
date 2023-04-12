@@ -110,7 +110,7 @@ const mainScript = () => {
         $('.page-nav-ic-wrap').on('click', function(e) {
             e.preventDefault();
             let target = $(this).attr('data-scroll')
-            lenis.scrollTo(target)
+            lenis.scrollTo(target, {duration: 0})
         })
     }
     clickToSection()
