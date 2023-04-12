@@ -110,7 +110,12 @@ const mainScript = () => {
         $('.page-nav-ic-wrap').on('click', function(e) {
             e.preventDefault();
             let target = $(this).attr('data-scroll')
-            lenis.scrollTo(target, {duration: 0})
+            if ($('[data-pagename="thongdiep"]').length) {
+                lenis.scrollTo(target, {duration: 0})
+            } else {
+                lenis.scrollTo(target)
+            }
+            
         })
     }
     clickToSection()
