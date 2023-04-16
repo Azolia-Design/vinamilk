@@ -60,67 +60,72 @@ const mainScript = () => {
                 $(this).addClass('active')
                 $(this).parent().find('[data-accord="body"]').slideDown({
                     start: function() {
-                      $(this).css('display','grid');
+                        if ($(window).width() >= 768) {
+                            $(this).css('display','grid');
+                        }                      
                     }
                 })
             }
         })
     }
 
-    // Demo click to section
-    function clickToSection() {
-        let allSections = $('[data-section]')
-        let activeSc, nextSc, prevSc;
-        let currentScroll = {scroll: lenis.targetScroll}
-        lenis.on('scroll', function(inst) {
-            detectSection(inst)
-        })
-        setTimeout(() => {
-            detectSection(currentScroll)
-            console.log(activeSc)    
-        }, 100);
+    function detactPage() {
+        let namePage = $('[data-pagename]').attr('data-pagename');
+        console.log(namePage)
+        $(`[data-link-header="${namePage}"]`).addClass('active')
+    }
+    detactPage()
 
-        function detectSection(scroller) {
+    function clickToSection() {
+        if ($('[data-section]').length >= 1) {
+            let allSections = $('[data-section]')
             for (let x = 0; x < allSections.length; x++) {
-                let top = allSections.eq(x).offset().top - scroller.scroll;
-                if (top > (- $(window).height() / 5) && top <= ($(window).height() / 5)) {
-                    activeSc = x
-                    nextSc = x + 1;
-                    prevSc = x - 1;
-                    if (x == 0) {
-                        $('.page-nav-left').addClass('inactive')
-                        $('.page-nav-right').removeClass('inactive')
-                    } else if (x == allSections.length - 1) {
-                        $('.page-nav-right').addClass('inactive')
-                        $('.page-nav-left').removeClass('inactive')
-                    } else {
-                        $('.page-nav-right').removeClass('inactive')
-                        $('.page-nav-left').removeClass('inactive')
-                    }
-                    if (prevSc >= 0) {
-                        $('.page-nav-left').attr('data-scroll', `.${allSections.eq(prevSc).attr('class').split(' ').join('.')}`)
-                    }
-                    if (nextSc < allSections.length) {
-                        $('.page-nav-right').attr('data-scroll', `.${allSections.eq(nextSc).attr('class').split(' ').join('.')}`)
+                allSections.eq(x).attr('data-section', x)
+            }
+            let activeSc, nextSc, prevSc;
+            let currentScroll = {scroll: lenis.targetScroll}
+            lenis.on('scroll', function(inst) {
+                detectSection(inst)
+            })
+            setTimeout(() => {
+                detectSection(currentScroll)
+                console.log(activeSc)    
+            }, 100);
+    
+            function detectSection(scroller) {
+                for (let x = 0; x < allSections.length; x++) {
+                    let top = allSections.eq(x).offset().top - scroller.scroll;
+                    if (top > (- $(window).height() / 5) && top <= ($(window).height() / 5)) {
+                        activeSc = x
+                        nextSc = x + 1;
+                        prevSc = x - 1;
+                        if (x == 0) {
+                            $('.page-nav-left').addClass('inactive')
+                            $('.page-nav-right').removeClass('inactive')
+                        } else if (x == allSections.length - 1) {
+                            $('.page-nav-right').addClass('inactive')
+                            $('.page-nav-left').removeClass('inactive')
+                        } else {
+                            $('.page-nav-right').removeClass('inactive')
+                            $('.page-nav-left').removeClass('inactive')
+                        }
+                        if (prevSc >= 0) {
+                            $('.page-nav-left').attr('data-scroll', `[data-section="${prevSc}"]`)
+                        }
+                        if (nextSc < allSections.length) {
+                            $('.page-nav-right').attr('data-scroll', `[data-section="${nextSc}"]`)
+                        }
                     }
                 }
             }
-        }
-
-        $('.page-nav-ic-wrap').on('click', function(e) {
-            e.preventDefault();
-            let target = $(this).attr('data-scroll')
-            if ($('[data-pagename="thongdiep"]').length) {
+    
+            $('.page-nav-ic-wrap').on('click', function(e) {
+                e.preventDefault();
+                let target = $(this).attr('data-scroll')
                 lenis.scrollTo(target, {duration: 0})
-            } else {
-                lenis.scrollTo(target)
-            }
-            
-        })
+            })
+        }
     }
     clickToSection()
-
-
-
 }
 window.onload = mainScript;
