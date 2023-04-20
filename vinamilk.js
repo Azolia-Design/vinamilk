@@ -98,7 +98,7 @@ const mainScript = () => {
         once: false,
     });
     $('[data-counter]').countUp({
-        scrollSpyOnce: true 
+        time: 1000 
     });
 
     //Lenis scroll
