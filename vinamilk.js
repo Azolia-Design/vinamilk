@@ -392,14 +392,13 @@ const mainScript = () => {
             })
         } else {
             $('.nav-link-item').on('click', function(e) {
-                if ($(this).parent().find('.header-link-wrap-drop-wrapper').length) {
+                if ($(this).parent().find('.header-link-wrap-drop-wrap').length) {
                     e.preventDefault();
-                    console.log('dropdown')
-                    if ($(this).parent().find('.header-link-wrap-drop-wrapper').hasClass('active')) {
-                        $(this).parent().find('.header-link-wrap-drop-wrapper').removeClass('active')
+                    if ($(this).parent().find('.header-link-wrap-drop-wrap').hasClass('active')) {
+                        $(this).parent().find('.header-link-wrap-drop-wrap').removeClass('active')
                     } else {
-                        $('.header-link-wrap-drop-wrapper').removeClass('active')
-                        $(this).parent().find('.header-link-wrap-drop-wrapper').addClass('active')
+                        $('.header-link-wrap-drop-wrap').removeClass('active')
+                        $(this).parent().find('.header-link-wrap-drop-wrap').addClass('active')
                     }
                 }
             })
