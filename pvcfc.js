@@ -10,16 +10,35 @@ const mainScript = () => {
     }
     requestAnimationFrame(raf)
 
+    // new fullpage('#fullpage', {
+    //     //options here
+    //     autoScrolling:true,
+    //     scrollHorizontally: true
+    // });
     lenis.on('scroll', function(inst) {
         if (inst.scroll > $('.header').height()) {
             $('.header').addClass('on-scroll')
             if (inst.direction == 1) {
                 $('.header').addClass('on-hide')
+                if ($('.sc-subnav-wrap').length) {
+                    $('.sc-subnav-wrap').addClass('on-hide')
+                }
             } else if (inst.direction == -1) {
                 $('.header').removeClass('on-hide')
+                if ($('.sc-subnav-wrap').length) {
+                    $('.sc-subnav-wrap').removeClass('on-hide')
+                }
             }
         } else {
             $('.header').removeClass('on-scroll')
+        }
+
+        if ($('.sc-subnav-wrap').length) {
+            if (inst.scroll > $('.chapter-content-wrap').offset().top) {
+                $('.sc-subnav-inner').addClass('on-scroll')
+            } else {
+                $('.sc-subnav-inner').removeClass('on-scroll')
+            }
         }
     })
 
@@ -49,6 +68,18 @@ const mainScript = () => {
         }
     })
 
+    function LinkPage() {
+        $('.link-home,.link-load').on('click',function(e){
+            e.preventDefault(),
+            $(".nav-click").hasClass("active") && $(".nav-click").trigger("click");
+            var t = $(this).attr("href");
+            return $('.go-top, .wheel, .header, .footer').removeClass('show'), $(".mask").removeClass("show"),$(".main").animate({
+                opacity: 1
+            }, 600, "linear", function() {
+                window.location = t
+            }), !1
+        })
+    }
 
 }
 window.onload = mainScript;
