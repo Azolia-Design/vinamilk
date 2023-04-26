@@ -54,6 +54,11 @@ const mainScript = () => {
         }
     })
 
+    //Homepage
+    if ($('[data-namespace="home"]')) {
+        
+    }
+
     //Sub nav
     $('.nav-link-head').on('click', function(e) {
         e.preventDefault();
@@ -67,6 +72,14 @@ const mainScript = () => {
             $(this).parent('.nav-link-wrap').find('.nav-sub-wrap').slideDown();
         }
     })
+
+    // Sub nav active
+    if ($('.sc-subnav-wrap').length) {
+        let path = window.location.pathname;
+        console.log(path)
+        $('.sc-subnav-link-wrap').removeClass('active')
+        $(`.sc-subnav-link-wrap[href="${path}"]`).addClass('active')
+    }
 
     function LinkPage() {
         $('.link-home,.link-load').on('click',function(e){
