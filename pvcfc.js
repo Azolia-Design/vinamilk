@@ -190,6 +190,22 @@ const mainScript = () => {
         memberPopup()
     }
 
+    //Global nav
+    if ($('[data-namespace="home"]').length) {
+        if ($('.sub-nav-link-wrap').length) {
+            $('[data-page]').removeClass('active')
+            $(`[data-page="home"]`).addClass('active')
+        }
+    } else {
+        if ($('.sub-nav-link-wrap').length) {
+            let path = window.location.pathname;
+            let chapterIndex = path.split('/')[1].split('-')[1]
+            console.log(chapterIndex)
+            $('[data-page]').removeClass('active')
+            $(`[data-page="chap${chapterIndex}"]`).addClass('active')
+        }
+    }
+
     //Sub nav
     $('.nav-link-head').on('click', function(e) {
         e.preventDefault();
