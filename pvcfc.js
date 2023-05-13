@@ -14,11 +14,6 @@ const mainScript = () => {
     }
     requestAnimationFrame(raf)
 
-    // new fullpage('#fullpage', {
-    //     //options here
-    //     autoScrolling:true,
-    //     scrollHorizontally: true
-    // });
     lenis.on('scroll', function(inst) {
         if (inst.scroll > $('.header').height()) {
             $('.header').addClass('on-scroll')
@@ -61,68 +56,212 @@ const mainScript = () => {
     })
 
     //Homepage
-    if ($('[data-namespace="home"]')) {
+    if ($('[data-namespace="home"]').length) {
         function homeScrollSection() {
-            let sections = $('.section'),
-
+            let sections = $('[data-home="section"]'),
+            outerWrappers = gsap.utils.toArray(".home-outer"),
+            innerWrappers = gsap.utils.toArray(".home-inner"),
+            images = document.querySelectorAll(".home-bg"),
+            headings = gsap.utils.toArray(".home-hero-title"),
             currentIndex = -1,
             wrap = gsap.utils.wrap(0, sections.length),
             animating;
 
+            gsap.set(outerWrappers, { yPercent: 100 });
+            gsap.set(innerWrappers, { yPercent: -100 });
+
             function gotoSection(index, direction) {
-            index = wrap(index); // make sure it's valid
-            animating = true;
-            let fromTop = direction === -1,
-                dFactor = fromTop ? -1 : 1,
-                tl = gsap.timeline({
+                if ($('.header').hasClass('on-open')) {
+                    return;
+                }
+                index = wrap(index); // make sure it's valid
+                console.log(index)
+                $('.global-nav-wrap .sub-nav-link-wrap').removeClass('active')
+                $('.global-nav-wrap .sub-nav-link-wrap').eq(index).addClass('active')
+                animating = true;
+                let fromTop = direction === -1,
+                    dFactor = fromTop ? -1 : 1,
+                    tl = gsap.timeline({
                     defaults: { duration: 1.25, ease: "power1.inOut" },
                     onComplete: () => animating = false
-                });
-            if (currentIndex >= 0) {
-                // The first time this function runs, current is -1
-                gsap.set(sections[currentIndex], { zIndex: 0 });
-                tl.to(images[currentIndex], { yPercent: -15 * dFactor })
-                .set(sections[currentIndex], { autoAlpha: 0 });
-            }
-            gsap.set(sections[index], { autoAlpha: 1, zIndex: 1 });
-            tl.fromTo([outerWrappers[index], innerWrappers[index]], { 
-                yPercent: i => i ? -100 * dFactor : 100 * dFactor
+                    });
+                if (currentIndex >= 0) {
+                    // The first time this function runs, current is -1
+                    gsap.set(sections[currentIndex], { zIndex: 0 });
+                    tl
+                    .to(images[currentIndex], { yPercent: 0 * dFactor })
+                    .set(sections[currentIndex], { autoAlpha: 0 });
+                }
+                
+                gsap.set(sections[index], { autoAlpha: 1, zIndex: 1 });
+                tl
+                .fromTo([outerWrappers[index], innerWrappers[index]], { 
+                    yPercent: i => i ? -100 * dFactor : 100 * dFactor
                 }, { 
-                yPercent: 0 
+                    yPercent: 0 
                 }, 0)
-                .fromTo(images[index], { yPercent: 15 * dFactor }, { yPercent: 0 }, 0)
-                .fromTo(splitHeadings[index].chars, { 
-                    autoAlpha: 0, 
-                    yPercent: 150 * dFactor
-                }, {
-                    autoAlpha: 1,
-                    yPercent: 0,
-                    duration: 1,
-                    ease: "power2",
-                    stagger: {
-                    each: 0.02,
-                    from: "random"
-                    }
-                }, 0.2);
+                animSection(index, tl, dFactor)
+                currentIndex = index;
+            }
 
-            currentIndex = index;
+            function animSection(index, tl, dFactor) {
+                if (index == 0) {
+                    tl
+                    .fromTo(images[index], { yPercent: 0 * dFactor }, { yPercent: 0 }, 0)
+                    .fromTo('.home-hero-bird', {scale: 0}, {scale: 1}, 0.2)
+                    .fromTo('.home-hero-stuff', {scale: 0}, {scale: 1}, 0.3)
+                    .fromTo('.home-content-wrap.mod-hero', { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                        clearProps: 'all',
+                    }, 0.4);
+                } else if (index == 1) {
+                    tl
+                    .fromTo(images[index], { yPercent: 0 * dFactor }, { yPercent: 0 }, 0)
+                    .fromTo('.home-chap1-bird', {scale: 0}, {scale: 1}, 0.2)
+                    .fromTo('.home-chap1-glow', {scale: 0}, {scale: 1}, 0.3)
+                    .fromTo('.home-content-wrap.mod-chap1', { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                        clearProps: 'all',
+                    }, 0.4);
+                } else if (index == 2) {
+                    tl
+                    .fromTo(images[index], { yPercent: 0 * dFactor }, { yPercent: 0 }, 0)
+                    .fromTo('.home-chap2-arr', {scale: .1}, {scale: 1}, 0.2)
+                    .fromTo('.home-chap2-chain-1', {xPercent: 0, rotateZ: 0}, {xPercent: -4, rotateZ: -7.5}, .6)
+                    .fromTo('.home-chap2-chain-2', {xPercent: 0, yPercent: 0, rotateZ: 0}, {xPercent: 4, yPercent: 4, rotateZ: 4.5}, .6)
+                    .fromTo('.home-chap2-glass', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
+                    .fromTo('.home-chap2-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
+                    .fromTo('.home-content-wrap.mod-chap2', { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                        clearProps: 'all',
+                    }, 0.4);
+                } else if (index == 3) {
+                    tl
+                    .fromTo(images[index], { yPercent: 0 * dFactor }, { yPercent: 0 }, 0)
+                    .fromTo('.home-chap3-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .2)
+                    .fromTo('.home-content-wrap.mod-chap3', { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                        clearProps: 'all',
+                    }, 0.4);
+                } else if (index == 4) {
+                    tl
+                    .fromTo(images[index], { yPercent: 0 * dFactor }, { yPercent: 0 }, 0)
+                    .fromTo('.home-chap4-puzz', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .2)
+                    .fromTo('.home-chap4-bird', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .2)
+                    .fromTo('.home-chap4-stuff', {autoAlpha: 0, y: 100}, {autoAlpha: 1, y: 0}, .6)
+                    .fromTo('.home-content-wrap.mod-chap4', { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                        clearProps: 'all',
+                    }, 0.4);
+                } else if (index == 5) {
+                    tl
+                    .fromTo(images[index], { yPercent: 0 * dFactor }, { yPercent: 0 }, 0)
+                    .fromTo('.home-chap5-wing', {autoAlpha: 0, rotateZ: 45,scale: 0}, {autoAlpha: 1, rotateZ: 0,scale: 1}, .2)
+                    .fromTo('.home-chap5-city', {autoAlpha: 0, rotateZ: 45,scale: 0}, {autoAlpha: 1, rotateZ: 0,scale: 1}, .3)
+                    .fromTo('.home-chap5-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
+                    .fromTo('.home-content-wrap.mod-chap5', { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                        clearProps: 'all',
+                    }, 0.4);
+                } else if (index == 6) {
+                    tl
+                    .fromTo(images[index], { yPercent: 0 * dFactor }, { yPercent: 0 }, 0)
+                    .fromTo('.home-chap6-bird', {autoAlpha: 0, xPercent: -40, yPercent: 10, scale: .8}, {autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1}, .2)
+                    .fromTo('.home-chap6-bird-el', {autoAlpha: 0, xPercent: -40, yPercent: 10, scale: .8}, {autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1}, .3)
+                    .fromTo('.home-chap6-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
+                    .fromTo('.home-content-wrap.mod-chap6', { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                        clearProps: 'all',
+                    }, 0.4);
+                } else {
+                    tl
+                    .fromTo(images[index], { yPercent: 0 * dFactor }, { yPercent: 0 }, 0)
+                    .fromTo(headings[index], { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        color: 'blue',
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                        clearProps: 'all',
+                    }, 0.2);
+                }
             }
 
             Observer.create({
             type: "wheel,touch,pointer",
             wheelSpeed: -1,
+            target: '.main',
             onDown: () => !animating && gotoSection(currentIndex - 1, -1),
             onUp: () => !animating && gotoSection(currentIndex + 1, 1),
+            
             tolerance: 10,
             preventDefault: true
             });
 
+            $('.global-nav-wrap .sub-nav-link-wrap').on('click', function(e) {
+                e.preventDefault();
+                let btnIndex = $(this).index();
+                if (btnIndex == currentIndex || animating) {
+                    return;
+                }
+                if (btnIndex > currentIndex) {
+                    gotoSection(btnIndex, 1)
+                } else {
+                    gotoSection(btnIndex, -1)
+                }
+            });
+
             gotoSection(0, 1);
         }
-        //homeScrollSection();
+        homeScrollSection();
     }
     //Chap1F member
-    if ($('[data-namespace="chap1f"]')) {
+    if ($('[data-namespace="chap1f"]').length) {
         console.log('chap1f')
         function tabInit() {
 
