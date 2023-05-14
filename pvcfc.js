@@ -189,7 +189,7 @@ const mainScript = () => {
                     .fromTo('.home-chap5-wing', {autoAlpha: 0, rotateZ: 45,scale: 0}, {autoAlpha: 1, rotateZ: 0,scale: 1}, .2)
                     .fromTo('.home-chap5-city', {autoAlpha: 0, rotateZ: 45,scale: 0}, {autoAlpha: 1, rotateZ: 0,scale: 1}, .3)
                     .fromTo('.home-chap5-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
-                    .fromTo('.home-content-wrap.mod-chap5', { 
+                    .fromTo('.home-content-wrap.mod-chap5, .home-sub-content.mod-chap5', { 
                         autoAlpha: 0, 
                         yPercent: 150 * dFactor
                     }, {
@@ -341,7 +341,99 @@ const mainScript = () => {
             let chapterIndex = path.split('/')[1].split('-')[1]
             console.log(chapterIndex)
             $('[data-page]').removeClass('active')
-            $(`[data-page="chap${chapterIndex}"]`).addClass('active')
+            $(`[data-page="chap${chapterIndex}"]`).addClass('active');
+            let tl = gsap.timeline({
+                delay: .3,
+            })
+            animSection(chapterIndex, tl, -1)
+
+            function animSection(index, tl, dFactor) {
+                gsap.set('.mod-subpage-hero', {autoAlpha: 1})
+                if (index == 1) {
+                    tl
+                    .fromTo('.home-chap1-bird', {scale: 0}, {scale: 1}, 0.2)
+                    .fromTo('.home-chap1-glow', {scale: 0}, {scale: 1}, 0.3)
+                    .fromTo(`.chap${index}-hero-title-wrap`, { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                    }, 0.4);
+                } else if (index == 2) {
+                    tl
+                    .fromTo('.home-chap2-arr', {scale: .1}, {scale: 1}, 0.2)
+                    .fromTo('.home-chap2-chain-1', {xPercent: 0, rotateZ: 0}, {xPercent: -4, rotateZ: -7.5}, .6)
+                    .fromTo('.home-chap2-chain-2', {xPercent: 0, yPercent: 0, rotateZ: 0}, {xPercent: 4, yPercent: 4, rotateZ: 4.5}, .6)
+                    .fromTo('.home-chap2-glass', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
+                    .fromTo('.home-chap2-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
+                    .fromTo(`.chap${index}-hero-title-wrap`, { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                    }, 0.4);
+                } else if (index == 3) {
+                    tl
+                    .fromTo('.home-chap3-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .2)
+                    .fromTo(`.chap${index}-hero-title-wrap`, { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                    }, 0.4);
+                } else if (index == 4) {
+                    tl
+                    .fromTo('.home-chap4-puzz', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .2)
+                    .fromTo('.home-chap4-bird', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .2)
+                    .fromTo('.home-chap4-stuff', {autoAlpha: 0, y: 100}, {autoAlpha: 1, y: 0}, .6)
+                    .fromTo(`.chap${index}-hero-title-wrap`, { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                    }, 0.4);
+                } else if (index == 5) {
+                    tl
+                    .fromTo('.home-chap5-wing', {autoAlpha: 0, rotateZ: 45,scale: 0}, {autoAlpha: 1, rotateZ: 0,scale: 1}, .2)
+                    .fromTo('.home-chap5-city', {autoAlpha: 0, rotateZ: 45,scale: 0}, {autoAlpha: 1, rotateZ: 0,scale: 1}, .3)
+                    .fromTo('.home-chap5-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
+                    .fromTo(`.chap${index}-hero-title-wrap`, { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                    }, 0.4);
+                } else if (index == 6) {
+                    tl
+                    .fromTo('.home-chap6-bird', {autoAlpha: 0, xPercent: -40, yPercent: 10, scale: .8}, {autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1}, .2)
+                    .fromTo('.home-chap6-bird-el', {autoAlpha: 0, xPercent: -40, yPercent: 10, scale: .8}, {autoAlpha: 1, xPercent: 0, yPercent: 0, scale: 1}, .3)
+                    .fromTo('.home-chap6-stuff', {autoAlpha: 0, scale: 0}, {autoAlpha: 1, scale: 1}, .6)
+                    .fromTo(`.chap${index}-hero-title-wrap`, { 
+                        autoAlpha: 0, 
+                        yPercent: 150 * dFactor
+                    }, {
+                        autoAlpha: 1,
+                        yPercent: 0,
+                        duration: 1,
+                        ease: "power2",
+                    }, 0.4);
+                }
+            }
         }
     }
 
