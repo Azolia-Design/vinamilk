@@ -459,6 +459,18 @@ const mainScript = () => {
         $(`.sc-subnav-link-wrap[href="${path}"]`).addClass('active')
     }
 
+    if ($('.chap1c-mess-sign-wrap-img').length >= 1) {
+        const Chap1cSignTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.chap1c-mess-sign-wrap-img',
+                start: 'top top+=75%',
+                onEnter: (e) => {
+                    $('.chap1c-mess-sign-wrap-img').addClass('anim')
+                }
+            }
+        })
+    }
+
     function LinkPage() {
         $('.link-home,.link-load').on('click',function(e){
             e.preventDefault(),
