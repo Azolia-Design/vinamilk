@@ -55,6 +55,44 @@ const mainScript = () => {
         }
     })
 
+    //Language
+    let currLang = $('[data-lang-curr]').attr('data-lang-curr');
+    let newPath;
+    if (currLang == 'en') {
+        console.log('EN')
+        if ($('[data-namespace="home"]').length) {
+            newPath = `${window.location.origin}`
+        } else {
+            newPath = `${window.location.origin}${window.location.pathname.slice(3)}`;
+        }
+    } else if (currLang == 'vn') {
+        console.log('VN')
+        if ($('[data-namespace="home"]').length) {
+            newPath = `${window.location.origin}/en/home/`;
+        } else {
+            newPath = `${window.location.origin}/en${window.location.pathname}`;
+        }
+    }
+    console.log(newPath)
+    $('[data-lang="mod"]').attr('href', newPath)
+
+    $('[data-lang="open"]').on('click', function(e) {
+        e.preventDefault();
+        if ($('.lang-drop-wrap').hasClass('active')) {
+            $('.lang-drop-wrap').removeClass('active')
+            $('.lang-toggle-ic').removeClass('active')
+        } else {
+            $('.lang-drop-wrap').addClass('active')
+            $('.lang-toggle-ic').addClass('active')
+        }
+    })
+
+    $('[data-lang="close"]').on('click', function(e) {
+        e.preventDefault();
+        $('.lang-drop-wrap').removeClass('active')
+        $('.lang-toggle-ic').removeClass('active')
+    })
+
     //Homepage
     if ($('[data-namespace="home"]').length) {
         function homeScrollSection() {
@@ -337,7 +375,14 @@ const mainScript = () => {
         }
     } else {
         if ($('.sub-nav-link-wrap').length) {
-            let path = window.location.pathname;
+            let path;
+            if (currLang == 'en') {
+                path = window.location.pathname.slice(3);
+            } else if (currLang == 'vn') {
+                path = window.location.pathname;
+            }
+            
+            console.log(path)
             let chapterIndex = path.split('/')[1].split('-')[1]
             console.log(chapterIndex)
             $('[data-page]').removeClass('active')
