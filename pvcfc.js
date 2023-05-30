@@ -21,6 +21,8 @@ const mainScript = () => {
                 $('.header').addClass('on-hide')
                 if ($('.sc-subnav-wrap').length) {
                     $('.sc-subnav-wrap').addClass('on-hide')
+                    $('.lang-drop-wrap').removeClass('active')
+                    $('.lang-toggle-ic').removeClass('active')
                 }
             } else if (inst.direction == -1) {
                 $('.header').removeClass('on-hide')
